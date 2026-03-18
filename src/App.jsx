@@ -10,6 +10,8 @@ import { useAuth } from './context/AuthContext';
 import Login from '../components/Login/Login';
 import Registration from '../components/Registration/Registration';
 import Utenti from '../components/Utenti/Utenti';
+import EmployeeDashboard from '../components/Dashboard/EmployeeDashboard';
+import OrganizerDashboard from '../components/Dashboard/OrganizerDashboard';
 import './App.css'
 
 function App() {
@@ -41,7 +43,7 @@ function App() {
     }
   };
 
-  const isAdmin = user?.ruolo === 'Amministratore';
+  const isOrganizer = user?.ruolo === 'Organizzatore';
 
   return (
     <div className="app-root">
@@ -84,12 +86,12 @@ function App() {
             >
               Dashboard
             </button>
-            {isAdmin && (
+            {isOrganizer && (
               <button
                 className={`nav-button ${currentPage === 'utenti' ? 'active' : ''}`}
                 onClick={handleGoToUtenti}
               >
-                Gestione Utenti
+                Gestione Eventi / Utenti
               </button>
             )}
           </>
@@ -111,20 +113,18 @@ function App() {
         )}
 
         {user && currentPage === 'home' && (
-          <div className="dashboard-placeholder">
-            <h2>Dashboard</h2>
-            <p>
-              Qui andranno la lista eventi, le iscrizioni personali e la dashboard
-              organizzatore/dipendente in base al ruolo.
-            </p>
-          </div>
+          user.ruolo === 'Dipendente' ? (
+            <EmployeeDashboard />
+          ) : (
+            <OrganizerDashboard />
+          )
         )}
 
-        {user && isAdmin && currentPage === 'utenti' && (
-          // Lazy import semplice per ora: richiede il componente direttamente
-          // senza React.lazy per non complicare la struttura.
-          // eslint-disable-next-line react/jsx-no-undef
-          <Utenti />
+        {user && isOrganizer && currentPage === 'utenti' && (
+          <div>
+            <OrganizerDashboard />
+            <Utenti />
+          </div>
         )}
       </main>
     </div>
