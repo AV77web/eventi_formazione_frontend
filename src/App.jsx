@@ -91,7 +91,7 @@ function App() {
                 className={`nav-button ${currentPage === 'utenti' ? 'active' : ''}`}
                 onClick={handleGoToUtenti}
               >
-                Gestione Eventi / Utenti
+                Gestione Utenti
               </button>
             )}
           </>
@@ -121,10 +121,7 @@ function App() {
         )}
 
         {user && isOrganizer && currentPage === 'utenti' && (
-          <div>
-            <OrganizerDashboard />
-            <Utenti />
-          </div>
+          <Utenti />
         )}
       </main>
     </div>
