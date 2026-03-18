@@ -1,6 +1,6 @@
 // =================================================
 // File: Utenti.jsx
-// Gestione utenti di sistema (solo Amministratore)
+// Gestione utenti di sistema (solo Organizzatore)
 // =================================================
 
 import { useEffect, useState } from 'react';
@@ -17,12 +17,14 @@ const Utenti = () => {
     const [editMode, setEditMode] = useState(false);
     const [currentUtente, setCurrentUtente] = useState(null);
     const [formData, setFormData] = useState({
+        nome: '',
+        cognome: '',
         email: '',
         password: '',
-        ruolo: 'Operatore' // Operatore | Amministratore
+        ruolo: 'Dipendente' // Dipendente | Organizzatore
     });
 
-    const isAdmin = user?.ruolo === 'Amministratore';
+    const isAdmin = user?.ruolo === 'Organizzatore';
 
     const loadUtenti = async () => {
         try {
@@ -49,9 +51,11 @@ const Utenti = () => {
         setEditMode(false);
         setCurrentUtente(null);
         setFormData({
+            nome: '',
+            cognome: '',
             email: '',
             password: '',
-            ruolo: 'Operatore'
+            ruolo: 'Dipendente'
         });
         setModalError(null);
         setShowModal(true);
@@ -61,9 +65,11 @@ const Utenti = () => {
         setEditMode(true);
         setCurrentUtente(utente);
         setFormData({
+            nome: utente.Nome || '',
+            cognome: utente.Cognome || '',
             email: utente.Email,
             password: '',
-            ruolo: (utente.Admin === true || utente.Admin === 'true' || utente.Admin === '1') ? 'Amministratore' : 'Operatore'
+            ruolo: utente.Ruolo || 'Dipendente'
         });
         setModalError(null);
         setShowModal(true);
@@ -87,21 +93,23 @@ const Utenti = () => {
             return;
         }
 
-        const adminFlag = formData.ruolo === 'Amministratore';
-
         try {
             setModalError(null);
             if (editMode && currentUtente) {
                 await updateUtente(currentUtente.UtenteID, {
+                    nome: formData.nome,
+                    cognome: formData.cognome,
                     email: formData.email,
-                    admin: adminFlag,
+                    ruolo: formData.ruolo,
                     password: formData.password || undefined
                 });
             } else {
                 await createUtente({
+                    nome: formData.nome,
+                    cognome: formData.cognome,
                     email: formData.email,
                     password: formData.password,
-                    admin: adminFlag
+                    ruolo: formData.ruolo
                 });
             }
             handleClose();
@@ -128,7 +136,7 @@ const Utenti = () => {
                 <div className="access-denied">
                     <div className="access-denied-icon">🔒</div>
                     <h2>Accesso Negato</h2>
-                    <p>Solo gli amministratori possono gestire gli utenti.</p>
+                    <p>Solo gli organizzatori possono gestire gli utenti.</p>
                 </div>
             </div>
         );
@@ -179,6 +187,8 @@ const Utenti = () => {
                         <thead>
                             <tr>
                                 <th>ID</th>
+                                <th>Nome</th>
+                                <th>Cognome</th>
                                 <th>Email</th>
                                 <th>Ruolo</th>
                                 <th>Azioni</th>
@@ -190,8 +200,10 @@ const Utenti = () => {
                                     <td>
                                         <span className="categoria-id">{u.UtenteID}</span>
                                     </td>
+                                    <td className="descrizione-cell">{u.Nome}</td>
+                                    <td className="descrizione-cell">{u.Cognome}</td>
                                     <td className="descrizione-cell">{u.Email}</td>
-                                    <td>{u.Admin === true || u.Admin === 'true' || u.Admin === '1' ? 'Amministratore' : 'Operatore'}</td>
+                                    <td>{u.Ruolo}</td>
                                     <td>
                                         <div className="actions-cell">
                                             <button
@@ -230,6 +242,22 @@ const Utenti = () => {
                         {modalError && <div className="error-message">{modalError}</div>}
                         <form onSubmit={handleSubmit} className="categoria-form">
                             <div className="form-group">
+                                <label>Nome</label>
+                                <input
+                                    type="text"
+                                    value={formData.nome}
+                                    onChange={(e) => setFormData({ ...formData, nome: e.target.value })}
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>Cognome</label>
+                                <input
+                                    type="text"
+                                    value={formData.cognome}
+                                    onChange={(e) => setFormData({ ...formData, cognome: e.target.value })}
+                                />
+                            </div>
+                            <div className="form-group">
                                 <label>Email *</label>
                                 <input
                                     type="email"
@@ -253,8 +281,8 @@ const Utenti = () => {
                                     value={formData.ruolo}
                                     onChange={(e) => setFormData({ ...formData, ruolo: e.target.value })}
                                 >
-                                    <option value="Operatore">Operatore</option>
-                                    <option value="Amministratore">Amministratore</option>
+                                    <option value="Dipendente">Dipendente</option>
+                                    <option value="Organizzatore">Organizzatore</option>
                                 </select>
                             </div>
                             <div className="form-actions">
