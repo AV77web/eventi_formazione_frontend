@@ -1,121 +1,134 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
+// =================================================
+// File: App.jsx
+// Componente principale dell'applicazione
+// @author: Full Stack Senior Developer
+// @version: 1.0.0 2026-01-14
+// =================================================
+
+import { useState } from 'react';
+import { useAuth } from './context/AuthContext';
+import Login from '../components/Login/Login';
+import Registration from '../components/Registration/Registration';
+import Utenti from '../components/Utenti/Utenti';
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const { user, logout } = useAuth();
+  const [currentPage, setCurrentPage] = useState('login');
+
+  const handleLoginSuccess = () => {
+    setCurrentPage('home');
+  };
+
+  const handleGoToLogin = () => {
+    setCurrentPage('login');
+  };
+
+  const handleGoToRegister = () => {
+    setCurrentPage('register');
+  };
+
+  const handleGoToUtenti = () => {
+    setCurrentPage('utenti');
+  };
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      setCurrentPage('login');
+    } catch {
+      setCurrentPage('login');
+    }
+  };
+
+  const isAdmin = user?.ruolo === 'Amministratore';
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <div className="app-root">
+      <header className="app-header">
+        <h1>Eventi Formazione</h1>
+        {user && (
+          <div className="app-header-right">
+            <span className="app-user-label">
+              {user.email} ({user.ruolo})
+            </span>
+            <button className="btn-link" onClick={handleLogout}>
+              Logout
+            </button>
+          </div>
+        )}
+      </header>
 
-      <div className="ticks"></div>
+      <nav className="app-nav">
+        {!user && (
+          <>
+            <button
+              className={`nav-button ${currentPage === 'login' ? 'active' : ''}`}
+              onClick={handleGoToLogin}
+            >
+              Login
+            </button>
+            <button
+              className={`nav-button ${currentPage === 'register' ? 'active' : ''}`}
+              onClick={handleGoToRegister}
+            >
+              Registrazione
+            </button>
+          </>
+        )}
+        {user && (
+          <>
+            <button
+              className={`nav-button ${currentPage === 'home' ? 'active' : ''}`}
+              onClick={() => setCurrentPage('home')}
+            >
+              Dashboard
+            </button>
+            {isAdmin && (
+              <button
+                className={`nav-button ${currentPage === 'utenti' ? 'active' : ''}`}
+                onClick={handleGoToUtenti}
+              >
+                Gestione Utenti
+              </button>
+            )}
+          </>
+        )}
+      </nav>
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+      <main className="app-main">
+        {!user && currentPage === 'login' && (
+          <Login
+            onSwitchToRegister={handleGoToRegister}
+            onLoginSuccess={handleLoginSuccess}
+          />
+        )}
+        {!user && currentPage === 'register' && (
+          <Registration
+            onSwitchToLogin={handleGoToLogin}
+            onRegistrationSuccess={handleGoToLogin}
+          />
+        )}
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+        {user && currentPage === 'home' && (
+          <div className="dashboard-placeholder">
+            <h2>Dashboard</h2>
+            <p>
+              Qui andranno la lista eventi, le iscrizioni personali e la dashboard
+              organizzatore/dipendente in base al ruolo.
+            </p>
+          </div>
+        )}
+
+        {user && isAdmin && currentPage === 'utenti' && (
+          // Lazy import semplice per ora: richiede il componente direttamente
+          // senza React.lazy per non complicare la struttura.
+          // eslint-disable-next-line react/jsx-no-undef
+          <Utenti />
+        )}
+      </main>
+    </div>
+  );
 }
 
 export default App
