@@ -31,7 +31,12 @@ const Utenti = () => {
             setLoading(true);
             setPageError(null);
             const response = await getUtenti();
-            setUtenti(response.data || response || []);
+            const list = Array.isArray(response?.data)
+                ? response.data
+                : Array.isArray(response)
+                  ? response
+                  : [];
+            setUtenti(list);
         } catch (err) {
             setPageError(err.message);
         } finally {
@@ -154,19 +159,19 @@ const Utenti = () => {
     }
 
     return (
-        <div className="categorie-container">
-            <div className="categorie-header">
+        <div className="categorie-container utenti-page">
+            <div className="categorie-header utenti-page-header">
                 <div className="header-content">
                     <div className="header-title">
-                        <span className="icon-title">👤</span>
-                        <h1>Gestione Utenti</h1>
+                        <span className="icon-title" aria-hidden="true">👤</span>
+                        <h1>Gestione utenti</h1>
                     </div>
-                    <p className="header-subtitle">
-                        Crea, modifica ed elimina gli utenti del sistema.
+                    <p className="header-subtitle page-lead" style={{ marginBottom: 0 }}>
+                        Crea, modifica ed elimina gli account (dipendenti e organizzatori). Le modifiche hanno effetto sul prossimo accesso.
                     </p>
                 </div>
-                <button className="btn-primary" onClick={handleOpenCreate}>
-                    + Nuovo Utente
+                <button type="button" className="btn-primary" onClick={handleOpenCreate}>
+                    + Nuovo utente
                 </button>
             </div>
 

@@ -7,6 +7,26 @@
   background: radial-gradient(circle at top left, #e0e7ff 0, #f9fafb 40%, #ffffff 100%);
 }
 
+.app-auth-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.app-auth-loading-text {
+  font-size: 15px;
+  color: #475569;
+  font-weight: 500;
+}
+
+.page-lead {
+  margin: 0 0 16px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #64748b;
+  max-width: 720px;
+}
+
 .app-header {
   display: flex;
   align-items: center;
@@ -112,6 +132,42 @@
 .dashboard-employee h2 {
   font-size: 22px;
   margin-bottom: 12px;
+}
+
+/* Titoli nelle pagine scheda (evita il h1 globale 56px da index.css) */
+.categorie-container h1,
+.dashboard-organizer > h2:first-child,
+.statistiche-page > h2:first-child {
+  font-size: 22px;
+  margin: 0 0 10px;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.utenti-page-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.utenti-page-header .header-content {
+  flex: 1;
+  min-width: 220px;
+}
+
+.utenti-page-header .header-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.utenti-page-header .header-title h1 {
+  margin: 0;
 }
 
 .dashboard-organizer section,
