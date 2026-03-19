@@ -7,7 +7,7 @@
 const BASE_URL =
   import.meta.env.VITE_API_BASE_URL ||
   (import.meta.env.MODE === "production"
-    ? "https://eventi-formazione-backend.fly.dev"
+    ? "https://eventi-formazione-backend.vercel.app"
     : "http://localhost:3000");
 
 async function handleResponse(response) {
