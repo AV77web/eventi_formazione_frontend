@@ -403,6 +403,41 @@
   text-align: right;
 }
 
+/* Card accesso gestione check-in (dashboard organizzatore) */
+.organizer-checkin-cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 8px 0 24px;
+  padding: 18px 20px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #e0e7ff 0%, #f5f3ff 50%, #ffffff 100%);
+  border: 1px solid #a5b4fc;
+  text-align: left;
+}
+
+.organizer-checkin-cta-text h3 {
+  margin: 0 0 8px;
+  font-size: 17px;
+  color: #312e81;
+}
+
+.organizer-checkin-cta-text p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #4c1d95;
+  max-width: 520px;
+}
+
+.organizer-checkin-cta-btn {
+  flex-shrink: 0;
+  padding: 12px 22px;
+  font-size: 14px;
+}
+
 /* Check-in organizzatore */
 .gestione-checkin-page .checkin-event-select {
   margin-top: 8px;

@@ -82,6 +82,10 @@ const EmployeeDashboard = () => {
 
       <section>
         <h3>Le mie iscrizioni</h3>
+        <p className="page-lead" style={{ textAlign: 'left', marginBottom: '12px' }}>
+          Il <strong>check-in</strong> in presenza viene registrato dall&apos;organizzatore il giorno
+          dell&apos;evento; qui sotto vedi se la tua presenza risulta già confermata.
+        </p>
         {iscrizioni.length === 0 ? (
           <p>Nessuna iscrizione trovata.</p>
         ) : (

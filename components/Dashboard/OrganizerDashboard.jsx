@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { getEventi, createEvento, updateEvento, deleteEvento } from '../../src/services/api';
 
-const OrganizerDashboard = () => {
+const OrganizerDashboard = ({ onOpenGestioneCheckin }) => {
   const [eventi, setEventi] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -73,10 +73,29 @@ const OrganizerDashboard = () => {
     <div className="dashboard-organizer">
       <h2>Dashboard Organizzatore</h2>
       <p className="page-lead">
-        Gestisci gli eventi di formazione. Dal menu{' '}
-        <strong>Check-in</strong> registri le presenze; in{' '}
-        <strong>Statistiche</strong> trovi gli eventi passati.
+        Crea e modifica gli eventi. Per segnare le presenze in sala usa la{' '}
+        <strong>gestione check-in</strong> dedicata (anche dal menu in alto).
       </p>
+
+      {typeof onOpenGestioneCheckin === 'function' && (
+        <section className="organizer-checkin-cta" aria-labelledby="checkin-cta-title">
+          <div className="organizer-checkin-cta-text">
+            <h3 id="checkin-cta-title">Check-in partecipanti</h3>
+            <p>
+              Scegli un evento, vedi l&apos;elenco iscritti e registra chi è presente. Ogni
+              partecipante può essere confermato una sola volta.
+            </p>
+          </div>
+          <button
+            type="button"
+            className="btn-primary organizer-checkin-cta-btn"
+            onClick={onOpenGestioneCheckin}
+          >
+            Apri gestione check-in
+          </button>
+        </section>
+      )}
+
       {error && <p className="error-message">{error}</p>}
 
       <section>

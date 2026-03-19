@@ -118,7 +118,7 @@ const GestioneCheckin = () => {
 
   return (
     <div className="dashboard-organizer gestione-checkin-page">
-      <h2>Check-in eventi</h2>
+      <h2>Gestione check-in</h2>
       <p className="page-lead">
         Seleziona un evento e registra la presenza degli iscritti. Ogni partecipante può essere
         confermato una sola volta.

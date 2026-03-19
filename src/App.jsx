@@ -125,7 +125,7 @@ function App() {
                   className={`nav-button ${effectivePage === 'checkin' ? 'active' : ''}`}
                   onClick={handleGoToCheckin}
                 >
-                  Check-in
+                  Gestione check-in
                 </button>
                 <button
                   className={`nav-button ${effectivePage === 'statistiche' ? 'active' : ''}`}
@@ -163,7 +163,7 @@ function App() {
           user.ruolo === 'Dipendente' ? (
             <EmployeeDashboard />
           ) : (
-            <OrganizerDashboard />
+            <OrganizerDashboard onOpenGestioneCheckin={handleGoToCheckin} />
           )
         )}
 
