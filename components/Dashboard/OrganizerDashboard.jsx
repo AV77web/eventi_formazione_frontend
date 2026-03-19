@@ -73,8 +73,9 @@ const OrganizerDashboard = () => {
     <div className="dashboard-organizer">
       <h2>Dashboard Organizzatore</h2>
       <p className="page-lead">
-        Gestisci gli eventi di formazione. Le statistiche sugli eventi passati sono nella sezione{' '}
-        <strong>Statistiche</strong> del menu.
+        Gestisci gli eventi di formazione. Dal menu{' '}
+        <strong>Check-in</strong> registri le presenze; in{' '}
+        <strong>Statistiche</strong> trovi gli eventi passati.
       </p>
       {error && <p className="error-message">{error}</p>}
 

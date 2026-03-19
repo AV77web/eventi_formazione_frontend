@@ -238,6 +238,20 @@ export async function registraCheckin(iscrizioneId) {
   return handleResponse(response);
 }
 
+/** Elenco iscritti a un evento (solo organizzatori) — per schermata check-in */
+export async function getIscrittiPerCheckin(eventoid) {
+  const params = new URLSearchParams();
+  params.set("eventoid", String(eventoid));
+  const response = await fetch(
+    `${BASE_URL}/checkin/iscritti?${params.toString()}`,
+    {
+      method: "GET",
+      credentials: "include",
+    }
+  );
+  return handleResponse(response);
+}
+
 // =================================================
 // Statistiche eventi passati (solo organizzatori)
 // =================================================

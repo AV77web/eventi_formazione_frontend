@@ -11,6 +11,7 @@ import Login from '../components/Login/Login';
 import Registration from '../components/Registration/Registration';
 import Utenti from '../components/Utenti/Utenti';
 import StatisticheEventi from '../components/Statistiche/StatisticheEventi';
+import GestioneCheckin from '../components/Checkin/GestioneCheckin';
 import EmployeeDashboard from '../components/Dashboard/EmployeeDashboard';
 import OrganizerDashboard from '../components/Dashboard/OrganizerDashboard';
 import './App.css'
@@ -37,6 +38,10 @@ function App() {
 
   const handleGoToStatistiche = () => {
     setCurrentPage('statistiche');
+  };
+
+  const handleGoToCheckin = () => {
+    setCurrentPage('checkin');
   };
 
   /**
@@ -117,6 +122,12 @@ function App() {
             {isOrganizer && (
               <>
                 <button
+                  className={`nav-button ${effectivePage === 'checkin' ? 'active' : ''}`}
+                  onClick={handleGoToCheckin}
+                >
+                  Check-in
+                </button>
+                <button
                   className={`nav-button ${effectivePage === 'statistiche' ? 'active' : ''}`}
                   onClick={handleGoToStatistiche}
                 >
@@ -154,6 +165,10 @@ function App() {
           ) : (
             <OrganizerDashboard />
           )
+        )}
+
+        {user && isOrganizer && effectivePage === 'checkin' && (
+          <GestioneCheckin />
         )}
 
         {user && isOrganizer && effectivePage === 'statistiche' && (
